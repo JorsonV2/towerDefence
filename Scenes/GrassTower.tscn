@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/GrassTower.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/TowerGrass.png" type="Texture" id=3]
+[ext_resource path="res://Textures/RadiusTexture.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 50.0
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource( 1 )
+Bullet = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Tower" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 50, 50 )
+
+[node name="Radius" type="TextureRect" parent="."]
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 1
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 25, 0 )
+
+[node name="Timer" type="Timer" parent="." groups=[
+"tower",
+]]
+[connection signal="area_entered" from="." to="." method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Area2D_area_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
